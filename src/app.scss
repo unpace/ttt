@@ -1,0 +1,141 @@
+@mixin flipToColor($box-color) {
+  --box-color: #{$box-color};
+  animation: flipToColor 0.5s cubic-bezier(0.075, 0.82, 0.165, 1) forwards,
+    motionBlur 0.5s linear forwards;
+    border: 1.1px solid;
+}
+
+@keyframes flipToColor {
+  to {
+    transform: rotateY(180deg);
+    box-shadow: 4.5px 4.5px 3.6px rgba(0, 0, 0, 0.024),
+      12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+      30.1px 30.1px 24.1px rgba(0, 0, 0, 0.046),
+      100px 100px 80px rgba(0, 0, 0, 0.07);
+    background: var(--box-color);
+  }
+}
+
+.grid {
+  --box-size: 56px;
+  --padding: 1.25rem;
+  --gap: 1rem;
+  position: relative;
+  border: 1px solid black;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: repeat(3, 1fr);
+  //3 rows, 2rem padding, 2rem gap
+  width: calc(3 * var(--box-size) + var(--padding) * 2 + var(--gap) * 2);
+  height: calc(3 * var(--box-size) + var(--padding) * 2 + var(--gap) * 2);
+  gap: var(--gap);
+  padding: var(--padding);
+
+  &.folded {
+    display: flex;
+  }
+
+  .box {
+    width: var(--box-size);
+    border: 0;
+    aspect-ratio: 1 / 1;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &::after{
+      font-size: larger;
+      font-weight: 100;
+      font-family: monospace
+    }
+
+    &.x {
+      @include flipToColor(transparent);
+
+      &::after {
+        content: "X";
+      }
+    }
+
+    &.o {
+      @include flipToColor(transparent);
+
+      &::after {
+        content: "O";
+      }
+    }
+  }
+}
+
+.guide {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  pointer-events: none;
+  // background: black;
+}
+
+@keyframes motionBlur {
+  0% {
+    filter: blur(0);
+  }
+  10% {
+    filter: blur(1px);
+  }
+  100% {
+    filter: blur(0px);
+  }
+}
+
+//take x1, x2, y1, y2 and convert to x, y using transform
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100svh;
+}
+
+
+
+dialog{
+ 
+}
+
+.modal:modal {
+  background-color: beige;
+  border: 2px solid burlywood;
+  border-radius: 5px;
+  margin: 3rem auto;
+  border-radius: 1.025rem;
+  width: 36ch;
+  height: 24ch;
+  animation: show 325ms cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
+  
+}
+
+
+@keyframes show {
+  from{
+    opacity: 0;
+    translate: 0 9rem;
+    scale: 0.8;
+  }
+
+  to{
+    opacity: 1;
+    translate: 0;
+    scale: 1;
+  }
+}
+
+
+.modal::backdrop{
+  background: rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(3px);
+
+}
